@@ -9,6 +9,7 @@ export type TProject  = {
   frontendRepoLink: string;
   backendRepoLink: string;
   image: string;
+  isDeleted: boolean
 }
 
 const projectSchema = new Schema<TProject>({
@@ -19,7 +20,8 @@ description: { type: String, required: true },
   liveLink: { type: String, required: true },
   frontendRepoLink: { type: String, required: true },
   backendRepoLink: { type: String, required: true },
-  image: { type: String, required: true }
+  image: { type: String, required: true },
+  isDeleted: {type: Boolean, default: false}
 });
 
 export const Project = model<TProject>('Project', projectSchema);

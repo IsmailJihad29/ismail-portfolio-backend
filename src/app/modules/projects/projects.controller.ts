@@ -9,52 +9,56 @@ const createProjects = catchAsync(async (req:Request, res:Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Facility added successfully",
+    message: "Project added successfully",
     data: result,
   });
 });
 
-// export class ProjectController {
-//   // Add a new project
-//   static async addProject(req: Request, res: Response) {
-//     try {
-//       const newProject = await ProjectService.addProject(req.body);
-//       res.status(201).json(newProject);
-//     } catch (error) {
-//       res.status(500).json({ message: "Error adding project", error });
-//     }
-//   }
 
-//   // Update an existing project
-//   static async updateProject(req: Request, res: Response) {
-//     try {
-//       const updatedProject = await ProjectService.updateProject(
-//         req.params.id,
-//         req.body
-//       );
-//       if (!updatedProject)
-//         return res.status(404).json({ message: "Project not found" });
-//       res.json(updatedProject);
-//     } catch (error) {
-//       res.status(500).json({ message: "Error updating project", error });
-//     }
-//   }
+const getProjects = catchAsync(async (req: Request, res: Response) => {
+  const result = await ProjectsService.GetProjectsFromDb();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Projects retrieved successfully",
+    data: result,
+  });
+});
 
-//   // Delete a project
-//   static async deleteProject(req: Request, res: Response) {
-//     try {
-//       const deletedProject = await ProjectService.deleteProject(req.params.id);
-//       if (!deletedProject)
-//         return res.status(404).json({ message: "Project not found" });
-//       res.json({ message: "Project deleted successfully" });
-//     } catch (error) {
-//       res.status(500).json({ message: "Error deleting project", error });
-//     }
-//   }
-// }
+
+const updateProject = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const project = req.body;
+  const result = await ProjectsService.UpdateProjectIntoDb(id, project);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Product updated successfully",
+    data: result,
+  });
+});
+
+// Delete a project
+const deleteProject = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await ProjectsService.DeleteProjectIntoDb(id);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Project deleteded successfully",
+    data: result,
+  });
+});
+
 
 export const ProjectsController = {
     createProjects,
+    getProjects,
+    updateProject,
+    deleteProject
+    
   
   };
   
